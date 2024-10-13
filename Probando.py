@@ -1,1 +1,0 @@
-'''Wena la sociedad'''
