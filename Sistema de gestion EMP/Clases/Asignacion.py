@@ -1,10 +1,10 @@
-import Empleados
-import Departamento
+import empleados
+import departamento
 
-class asignacion:
+class Asignacion(empleados,departamento):
     def _init_(self,id_asignacion,id_departamento,id_empleado):
-        super(Empleados)._init_(id_empleado)
-        super(Departamento)._init_(id_departamento)
+        empleados.Empleados.__init__(id_empleado)
+        departamento.Departamento.__init__(id_departamento)
         self.id_asignacion=id_asignacion
     
     def validar_asignacion():

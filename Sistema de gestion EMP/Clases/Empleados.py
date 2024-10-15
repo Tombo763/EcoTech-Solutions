@@ -1,13 +1,13 @@
-import Modulos
-import Roles
-import Tipo_empleado_emp
+import modulos
+import roles
+import tipo_empleado_emp
 
-class empleados:
+class Empleados(modulos,roles,tipo_empleado_emp):
     def _init_(self,id_empleado,nombre_empleado,fecha_nacimiento,fecha_contrato,salario,correo,telefono,
                direccion,rut,id_tipo_empleado_emp,id_rol,id_modulo,password):
-        super(Tipo_empleado_emp)._init_(id_tipo_empleado_emp)
-        super(Roles)._init_(id_rol)
-        super(Modulos)._init_(id_modulo)
+        tipo_empleado_emp.Tipo_empleado_emp.__init__(id_tipo_empleado_emp)
+        roles.Roles.__init__(id_rol)
+        modulos.Modulos.__init__(id_modulo)
         self.id_empleado=id_empleado
         self.nombre_empleado=nombre_empleado
         self.fecha_nacimmiento=fecha_nacimiento
