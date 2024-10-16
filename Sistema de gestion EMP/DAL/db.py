@@ -7,7 +7,7 @@ cnx = mysql.connector.connect(
     database='ecotech-solutions')
     
 cursor = cnx.cursor()
-cursor.execute('Select * from departamentos')
+cursor.execute('Select * from modulos')
 #cursor.execute("SHOW DATABASES") # Comando usado para testear la conexión, OK
 for base in cursor:
     print(base)
