@@ -8,7 +8,7 @@ cnx = mysql.connector.connect(
     
 cursor = cnx.cursor()
 cursor.execute('Select * from departamentos')
-    #cursor.execute("SHOW DATABASES") # Comando usado para testear la conexión, OK
+#cursor.execute("SHOW DATABASES") # Comando usado para testear la conexión, OK
 for base in cursor:
     print(base)
 cnx.close()
