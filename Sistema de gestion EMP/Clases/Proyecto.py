@@ -1,4 +1,4 @@
-#wena shoro
+
 
 class Proyecto:
     def _init_(self,id_proyecto,nombre_proyecto,descripcion_proyecto,

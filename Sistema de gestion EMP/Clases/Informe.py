@@ -1,5 +1,5 @@
 class informe:
-    #wena shoro
+    
     def __init__(self): 
         pass
 

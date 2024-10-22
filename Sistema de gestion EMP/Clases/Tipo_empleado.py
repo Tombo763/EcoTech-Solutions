@@ -5,4 +5,4 @@ class tipo_empleado:
 
 
 
-#wena shoro        
+     

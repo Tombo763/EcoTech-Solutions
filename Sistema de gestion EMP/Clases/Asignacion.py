@@ -1,6 +1,6 @@
 import empleados
 import departamento
-#wena shoro
+
 class Asignacion(empleados,departamento):
     def _init_(self,id_asignacion,id_departamento,id_empleado):
         empleados.Empleados.__init__(id_empleado)

@@ -1,7 +1,7 @@
 import modulos
 import roles
 import tipo_empleado_emp
-#wena shoro
+
 class Empleados(modulos,roles,tipo_empleado_emp):
     def _init_(self,id_empleado,nombre_empleado,fecha_nacimiento,fecha_contrato,salario,correo,telefono,
                direccion,rut,id_tipo_empleado_emp,id_rol,id_modulo,password):
