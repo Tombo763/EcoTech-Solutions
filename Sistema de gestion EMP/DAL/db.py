@@ -4,7 +4,7 @@ cnx = mysql.connector.connect(
     user='root', 
     password='',
     host='127.0.0.1',
-    database='ecotech-solutions')
+    database='ecotech solutions')
     
 cursor = cnx.cursor()
 cursor.execute('Select * from empleados')
