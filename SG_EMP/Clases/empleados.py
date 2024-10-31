@@ -1,6 +1,11 @@
 import modulos
 import roles
 import tipo_empleado_emp
+from getpass import getpass
+from DAL.db import connector
+
+import re
+valid_mail = re.compile(r"([\w\d.-_]+)@([\w]+).([\w]+)")
 
 class Empleados(modulos,roles,tipo_empleado_emp):
     def _init_(self,id_empleado,nombre_empleado,fecha_nacimiento,fecha_contrato,salario,correo,telefono,
@@ -13,18 +18,24 @@ class Empleados(modulos,roles,tipo_empleado_emp):
         self.fecha_nacimmiento=fecha_nacimiento
         self.fecha_contrato=fecha_contrato
         self.salario=salario
-
+        self.correo=correo
+        self.telefono=telefono
         self.direcciom=direccion
         self.rut=rut
         self.password=password
 
-    def validar_datos():
+    def validar_datos(mail):
+        re.match(valid_mail,mail) is not None
+        
         pass
 
 
     def habilitar_modulos():
+        
         pass
 
 
-    def encriptacion():
+    def encriptacion(self,contraseña):
+        connector()
+        self.password=getpass(contraseña) 
         pass
