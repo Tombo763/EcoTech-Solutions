@@ -6,6 +6,7 @@ from SG_EMP.DAL.db import connector
 from SG_EMP.Clases.empleados import Empleados
 
 valid_mail = re.compile(r"([\w\d.-_]+)@([\w]+).([\w]+)")
+valid_date=re.compile(r"DD/MM/AAAA")
 usuarios=[]
 id_emp=0
 list_usuarios=[]
@@ -250,11 +251,20 @@ def leer_tabla_emp():
     resultado=cursor.fetchall
     return resultado
 
+
+def leer_id_emp():
+    cursor.execute('''select ID_EMPLEADO FROM empleados;''')
+    all_id_emp=cursor.fetchall
+    id_empleados=list(all_id_emp)
+    return id_empleados
+
+
+
 while True:     
     op_1=['1','2','3','4','5']
     opciones_2=['1','2']
     opciones_mostrar=['1','2']
-
+    opciones_modificar=['1','2','3','4','5','6','7','8','9','10']
 
 
     menuprincipal()
@@ -300,10 +310,125 @@ while True:
     
     elif op_menuprincipal=='3': # modificar
         menu_datos()
-        op_mod=input('elija el tipo de dato que quiere modificar')
-        while op_mod not in opciones_2:
+        op_mod_data=input('elija el tipo de dato que quiere modificar')
+        while op_mod_data not in opciones_2:
             print('esta opcion no existe')
+        for fila in leer_tabla_emp():
+                print(fila)
+        
+        id_mod_emp=input('ingresa el ID del empleado que quieres modificar')
+        while id_mod_emp not in leer_id_emp():
+            print('no hay un empleado con este ID')
+            id_mod_emp=input('ingresa el ID del empleado que quieres modificar')
+
         mod_empleados()
+        op_mod=input('elija que atributo quiere cambiar o vuelve')
+        
+        
+        while True:
+
+            while op_mod not in opciones_modificar:
+                print ('no existe esta opcion')
+                op_mod=input('elija que atributo quiere cambiar o vuelve')
+
+
+            if op_mod=='1':
+                nuevo_nom=input('ingrese el nuevo nombre')
+                sql_mod=f""" update empleados set NOMBRE={nuevo_nom} where ID_EMPLEADO={id_mod_emp};"""
+                cursor.execute(sql_mod)
+                cursor.execute(f""" select nombre from embleados where ID_EMPLEADO={id_mod_emp};""")
+                nom_actual=cursor.fetchall
+                print(nom_actual)
+                continue           
+            elif op_mod=='2':
+                print('siga este formato DD/MM/AAAA')
+                nueva_fecha_nac=input('ingese la nueva fecha')
+                while not re.fullmatch(valid_date,nueva_fecha_nac):
+                    print("la fecha ingresada no sigue el formato")
+                    nueva_fecha_nac=input('ingese la nueva fecha')
+                
+                sql_mod=f"""update empleados set FECHA_NAC={nueva_fecha_nac} where ID_EMPLEADO={id_mod_emp}; """
+                cursor.execute(sql_mod)
+                cursor.execute(f"""select FECHA_NAC from empleados where ID_EMPLEADOS={id_mod_emp};""")
+                fechanac_actual=cursor.fetchall
+                print(fechanac_actual)
+                continue
+
+            elif op_mod=='3':
+                print('siga este formato DD/MM/AAAA')
+                fecha_contrato=input('ingese la nueva fecha')
+                while not re.fullmatch(valid_date,fecha_contrato):
+                    print("la fecha ingresada no sigue el formato")
+                    fecha_contrato=input('ingese la nueva fecha')
+                sql_mod=f'update empleados set FECHA_CONTRATO={fecha_contrato} where ID_EMPLEADO={id_mod_emp};'    
+                cursor.execute(sql_mod)
+                cursor.execute(f'select FECHA_CONTRATO from empleados where ID_EMPLEADO={id_mod_emp};')
+                fechcontra_actual=cursor.fetchall
+                print(fechanac_actual)
+                continue
+
+            elif op_mod=='4':
+                    while True:
+                        try:    
+                            nuevo_salario=int(input('ingrese el nuevo salario'))
+                            cursor.execute(f'update empleados set SALARIO={nuevo_salario} where ID_EMPLEADO={id_mod_emp};')
+                            cursor.execute(f'select SALARIO from empleados where ID_EMPLEADO={id_mod_emp};')
+                            sal_actual=cursor.fetchall
+
+                            print(sal_actual)     
+                        except ValueError:
+                                print('salario no valido')                       
+                                continue
+
+
+
+            elif op_mod=='5':
+                nuevo_correo=input('ingrese el nuevo correo')
+                while not re.fullmatch(valid_mail,nuevo_correo):
+                    print('el correo no es valido')
+                    nuevo_correo=input('ingrese el nuevo correo')
+                cursor.execute(f'update empleados set CORREO={nuevo_correo} where ID_EMPLEADO={id_mod_emp};')    
+                cursor.execute(f'select CORREO from empleados where ID_EMPLEADO={id_mod_emp};')
+
+
+
+
+            elif op_mod=='6':
+                chr_fono=['0','1','2','3','4','5','6','7','8','9']
+                nuevo_telefono=input('ingrese nuevo telefono')
+                while nuevo_telefono not in chr_fono:
+                   print('telefono no valido')
+                   nuevo_telefono=input('ingrese nuevo telefono')
+                cursor.execute(f'update empleados set TELEFONO={nuevo_telefono} where ID_EMPLEADO={id_mod_emp};')
+                cursor.execute(f'select TELEFONO from empleados where ID_EMPLEADO={id_mod_emp};')
+                fono_actual=cursor.fetchall
+                print(fono_actual)  
+                continue  
+            
+            elif op_mod=='7':
+                
+                nueva_direccion=input('ingrese nueva direccion')
+                cursor.execute(f'update empleados set DIRECCION={nueva_direccion} where ID_EMPLEADO={id_mod_emp};')
+                cursor.execute(f'select DIRECCION from empleados where ID_EMPLEADO={id_mod_emp};')
+                direccion_actual=cursor.fetchall
+                print(direccion_actual)            
+
+
+            elif op_mod=='8':
+                nuevo_rut=input('ingrese el nuevo RUt')
+
+
+
+
+            elif op_mod=='9':
+                nueva_contraseña=input('ingrese la nueva contraceña')
+
+
+
+
+            else:
+
+                break  
 
     
     elif  op_menuprincipal=='4': # eliminar
