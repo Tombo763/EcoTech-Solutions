@@ -1,18 +1,18 @@
-import modulos
-import roles
-import tipo_empleado_emp
+
+from roles import Roles
+from tipo_empleado_emp import Tipo_empleado_emp
 from getpass import getpass
 from DAL.db import connector
 
 import re
 valid_mail = re.compile(r"([\w\d.-_]+)@([\w]+).([\w]+)")
 
-class Empleados(modulos,roles,tipo_empleado_emp):
-    def _init_(self,id_empleado,nombre_empleado,fecha_nacimiento,fecha_contrato,salario,correo,telefono,
-               direccion,rut,id_tipo_empleado_emp,id_rol,id_modulo,password):
-        tipo_empleado_emp.Tipo_empleado_emp.__init__(id_tipo_empleado_emp)
-        roles.Roles.__init__(id_rol)
-        modulos.Modulos.__init__(id_modulo)
+class Empleados(Roles,Tipo_empleado_emp):
+    id_empleado: int
+    def _init_(self,id_empleado= 0,nombre_empleado='',fecha_nacimiento='',fecha_contrato='',
+               salario=0,correo='',telefono='',
+               direccion='',rut='',password='',id_tipo_empleado_emp=0,id_rol=0):
+
         self.id_empleado=id_empleado
         self.nombre_empleado=nombre_empleado
         self.fecha_nacimmiento=fecha_nacimiento
@@ -23,11 +23,17 @@ class Empleados(modulos,roles,tipo_empleado_emp):
         self.direcciom=direccion
         self.rut=rut
         self.password=password
+        self.id_tipo_empleado_emp=id_tipo_empleado_emp
+        self.id_rol=id_rol
 
-    def validar_datos(mail):
-        re.match(valid_mail,mail) is not None
-        
-        pass
+
+    def validar_datos(self):
+
+        if re.fullmatch(valid_mail,self.correo):
+            return True
+        else:
+            return False
+    
 
 
     def habilitar_modulos():
