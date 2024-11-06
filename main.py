@@ -5,12 +5,12 @@ from getpass import getpass
 from SG_EMP.DAL.db import connector
 from SG_EMP.DAL.consultas_sql import consulta_1, consulta_2,consulta_3,consulta_4,consulta_5
 from rut_chile import rut_chile
-#from SG_EMP.Clases.empleados import Empleados
+from SG_EMP.Clases.empleados import Empleados
 
 valid_mail = re.compile(r"([\w\d.-_]+)@([\w]+).([\w]+)")
 valid_date=re.compile(r"DD/MM/AAAA")
 usuarios=[]
-
+id_emp=len(consulta_4)
 list_usuarios=[]
 list_password=[]
 consulta=[1,2,3,4,5]
@@ -198,9 +198,9 @@ def ingreso_empleados():
         contraseña=getpass('Contraseña:    ')
     
 
-    #id_emp=+1
-    #empleado = Empleados(nombre,fecha_nac,fecha_contrato,
-    #          salario,correo,phono,direccion,rut,contraseña)
+    id_emp=+1
+    empleado= Empleados(id_emp,nombre,fecha_nac,fecha_contrato,
+              salario,correo,phono,direccion,rut,contraseña)
     
     consulta_2(nombre,fecha_nac,fecha_contrato,
               salario,correo,phono,direccion,rut,contraseña)
