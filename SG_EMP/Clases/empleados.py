@@ -1,6 +1,6 @@
 
-from roles import Roles
-from tipo_empleado_emp import Tipo_empleado_emp
+from Clases.roles import Roles
+from Clases.tipo_empleado_emp import Tipo_empleado_emp
 from getpass import getpass
 #from DAL.db import connector
 import re
@@ -8,7 +8,7 @@ valid_mail = re.compile(r"([\w\d.-_]+)@([\w]+).([\w]+)")
 
 class Empleados(Roles,Tipo_empleado_emp):
     id_empleado: int
-    def _init_(self,id_empleado= 0,nombre_empleado='',fecha_nacimiento='',fecha_contrato='',
+    def __init__(self,id_empleado= 0,nombre_empleado='',fecha_nacimiento='',fecha_contrato='',
                salario=0,correo='',telefono='',
                direccion='',rut='',password='',id_tipo_empleado_emp=0,id_rol=0):
 

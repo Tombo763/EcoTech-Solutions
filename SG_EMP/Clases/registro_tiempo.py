@@ -1,7 +1,7 @@
 import proyecto_empleado
 
 class Registro_tiempo(proyecto_empleado):
-    def _init_(self,id_registro_tiempo,fecha_registro,cantidad_horas,
+    def __init__(self,id_registro_tiempo,fecha_registro,cantidad_horas,
                descripcion,id_proyecto_empleado,hora_extra,observacion):
         super().__init__(id_proyecto_empleado)
         self.id_registro_tiempo=id_registro_tiempo

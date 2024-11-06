@@ -2,10 +2,10 @@
 
 import re
 from getpass import getpass
-from SG_EMP.DAL.db import connector
-from SG_EMP.DAL.consultas_sql import consulta_1, consulta_2,consulta_3,consulta_4,consulta_5
+from DAL .db import connector
+from DAL.consultas_sql import consulta_1, consulta_2,consulta_3,consulta_4,consulta_5
 from rut_chile import rut_chile
-from SG_EMP.Clases.empleados import Empleados
+from Clases.empleados import Empleados
 
 valid_mail = re.compile(r"([\w\d.-_]+)@([\w]+).([\w]+)")
 valid_date=re.compile(r"DD/MM/AAAA")
@@ -427,8 +427,6 @@ while True:
                     print('la contraseña debe tener al menos 8 caracteres y un minimo de 1 simbolo (#,@,-)')
                     nueva_contraseña=input('ingrese la nueva contraceña')
                 vew_contraseña=consulta_3(campos[8],nueva_contraseña,id_mod_emp)
-
-
 
 
             else:
