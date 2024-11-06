@@ -3,24 +3,26 @@
 import re
 from getpass import getpass
 from SG_EMP.DAL.db import connector
-from SG_EMP.Clases.empleados import Empleados
+from SG_EMP.DAL.consultas_sql import consulta_1, consulta_2,consulta_3,consulta_4,consulta_5
+from rut_chile import rut_chile
+#from SG_EMP.Clases.empleados import Empleados
 
 valid_mail = re.compile(r"([\w\d.-_]+)@([\w]+).([\w]+)")
 valid_date=re.compile(r"DD/MM/AAAA")
 usuarios=[]
-id_emp=0
+
 list_usuarios=[]
 list_password=[]
 consulta=[1,2,3,4,5]
-conexion=connector()
-cursor=conexion.cursor()
+cursor=connector().cursor()
+ch_rut=['1','2','3','4','5','6','7','8','9','0','k']
 
 def menuinicio():
     print("================================")
     print("       M E N Ú  I N I C I O     ")
     print("================================")
-    print("       1.- INICIAR SECION       ")
-    print("       2.- CREAR SECION         ")
+    print("       1.- INICIAR SESION       ")
+    print("       2.- CREAR SESION         ")
     print("       3.- Salir                ")
     print("================================")
 
@@ -134,7 +136,7 @@ def mod_departamentos():
 
 
 def ingreso_empleados():
-    empleado=[]
+    
     print("================================")
     print("       INGRESAR EMPLEADO        ")
     print("================================")
@@ -142,31 +144,31 @@ def ingreso_empleados():
     while not len (nombre):
         print('campo necesario')
         nombre=input('Nombre: ')
-    empleado.append(nombre) #[0]
+    
     
     fecha_nac=input('Fecha Nacimiento: ')
     while not len(fecha_nac):
         print('campo necesario')
-    empleado.append(fecha_nac) #[1]
+    
 
     fecha_contrato=input('Fecha Contrato: ')
     while not len(fecha_contrato):
         print('campo necesario')
         fecha_contrato=input('Fecha Contrato: ')
-    empleado.append(fecha_contrato) #[2]
+    
 
 
     salario=int(input('Salario: $'))
     while not len(salario):
         print('campo necesario')
         salario=int(input('Salario: $'))
-    empleado.append(salario) #[3]
+    
 
     correo=input('correo: ')
     while not re.fullmatch(valid_mail,correo):
         print('correo no es valido')
         correo=input('correo: ')
-    empleado.append(correo) #[4]
+    
     
     
     
@@ -174,37 +176,35 @@ def ingreso_empleados():
     while not len(phono) or len(phono)!=9:
         print('nunero de telefono no valido')
         phono=int (input('Telefono: '))
-    empleado.append(phono) #[5]
+    
 
 
     direccion=input('diereccion:  ')   
     while not len (direccion):
         print('campo necesario')
         direccion=input('diereccion:  ') 
-    empleado.append(direccion) #[6]
     
-    ch_rut=['1','2','3','4','5','6','7','8','9','0','k']
+    
     rut=input('RUT:  ')
     while rut not in ch_rut or len(rut)!=9:
         print('el rut no es valido') 
         rut=input('RUT:  ')
-    empleado.append(rut) #[7]
+    
 
 
     contraseña=getpass('Contraseña:    ')
     while len(contraseña)<8:
         print('la contraseña es muy corta')
         contraseña=getpass('Contraseña:    ')
-    empleado.append(contraseña) #[8]
-
-    id_emp=+1
-    empleado = Empleados(id_emp,empleado[0],empleado[1],empleado[2],empleado[3],
-                         empleado[4],empleado[5],empleado[6],empleado[7],empleado[8])
     
-    cursor.execute(F'''insert into empleados (NOMBRE,FECHA_NAC,FECHA,CONTRATO,
-                   SALARIO,CORREO,TELEFONO,DIRECCION,RUT,CONTRASEÑA) 
-                   values ({empleado[0]},{empleado[1]},{empleado[2]},{empleado[3]},
-                   {empleado[4]},{empleado[5]},{empleado[6]},{empleado[7]},{empleado[8]})''')
+
+    #id_emp=+1
+    #empleado = Empleados(nombre,fecha_nac,fecha_contrato,
+    #          salario,correo,phono,direccion,rut,contraseña)
+    
+    consulta_2(nombre,fecha_nac,fecha_contrato,
+              salario,correo,phono,direccion,rut,contraseña)
+    
     print("================================") 
 
 
@@ -246,23 +246,21 @@ def mod_informe():
     print("       3.- VOLVER              ")
     print("===============================")    
 
-def leer_tabla_emp():
-    cursor.execute('select *from  empleados;')
-    resultado=cursor.fetchall
-    return resultado
-
-
-def leer_id_emp():
-    cursor.execute('''select ID_EMPLEADO FROM empleados;''')
-    all_id_emp=cursor.fetchall
-    id_empleados=list(all_id_emp)
-    return id_empleados
+def menu_delt_dato():
+    
+    print("=====================================")
+    print("           ELIMINAR DATOS            ")
+    print("=====================================")
+    print("        1.- ELIMINAR UNO              ")
+    print("        2.- ELIMINAR PARCIAL          ")
+    print("        3.- VOLVER                   ")
+    print("=====================================")
 
 
 
 while True:     
     op_1=['1','2','3','4','5']
-    opciones_2=['1','2']
+    opciones_datos=['1','2']
     opciones_mostrar=['1','2']
     opciones_modificar=['1','2','3','4','5','6','7','8','9','10']
 
@@ -276,7 +274,7 @@ while True:
     if op_menuprincipal=='1':  # ingresar
         menu_datos()
         op_menu_datos=input('elija el tipo de dato que quiere ingresar: ')
-        while op_menu_datos not in opciones_2:
+        while op_menu_datos not in opciones_datos:
             print('esta opcion no existe')
             op_menu_datos=input('elija el tipo de dato que quiere ingresar: ')
 
@@ -290,9 +288,12 @@ while True:
     elif op_menuprincipal=='2': # mostrar
         menu_datos()
         op_mostrar_data=input('elija el tipo de dato que quiere ver')
-        while op_mostrar_data not in opciones_2:
+        while op_mostrar_data not in opciones_datos:
             print('esta opcion no existe')
             op_mostrar_data=input('elija el tipo de dato que quiere ver')
+        if op_mostrar_data=='2':
+            continue
+        
 
 
         menu_num_datos()
@@ -303,7 +304,7 @@ while True:
 
 
         if op_mostrar =='1':
-            for fila in leer_tabla_emp():
+            for fila in consulta_1():
                 print(fila)
         else:
             continue
@@ -311,13 +312,18 @@ while True:
     elif op_menuprincipal=='3': # modificar
         menu_datos()
         op_mod_data=input('elija el tipo de dato que quiere modificar')
-        while op_mod_data not in opciones_2:
+        while op_mod_data not in opciones_datos:
             print('esta opcion no existe')
-        for fila in leer_tabla_emp():
+            op_mod_data=input('elija el tipo de dato que quiere modificar')
+        if op_mod_data=='2':
+            continue
+        
+        
+        for fila in consulta_1():
                 print(fila)
         
         id_mod_emp=input('ingresa el ID del empleado que quieres modificar')
-        while id_mod_emp not in leer_id_emp():
+        while id_mod_emp not in consulta_4:
             print('no hay un empleado con este ID')
             id_mod_emp=input('ingresa el ID del empleado que quieres modificar')
 
@@ -331,14 +337,14 @@ while True:
                 print ('no existe esta opcion')
                 op_mod=input('elija que atributo quiere cambiar o vuelve')
 
-
+            campos=['NOMBRE','FECHA_NAC','FECHA_CONTRATO','SALARIO','CORREO','TELEFONO','DIRECCION','RUT','CONTRASEÑA']
             if op_mod=='1':
                 nuevo_nom=input('ingrese el nuevo nombre')
-                sql_mod=f""" update empleados set NOMBRE={nuevo_nom} where ID_EMPLEADO={id_mod_emp};"""
-                cursor.execute(sql_mod)
-                cursor.execute(f""" select nombre from embleados where ID_EMPLEADO={id_mod_emp};""")
-                nom_actual=cursor.fetchall
-                print(nom_actual)
+                while not len(nuevo_nom):
+                    print('campo nesesario')
+                    nuevo_nom=input('ingrese el nuevo nombre')
+                vew_nombre=consulta_3(campos[0],nuevo_nom,id_mod_emp)
+                print(vew_nombre)
                 continue           
             elif op_mod=='2':
                 print('siga este formato DD/MM/AAAA')
@@ -346,12 +352,8 @@ while True:
                 while not re.fullmatch(valid_date,nueva_fecha_nac):
                     print("la fecha ingresada no sigue el formato")
                     nueva_fecha_nac=input('ingese la nueva fecha')
-                
-                sql_mod=f"""update empleados set FECHA_NAC={nueva_fecha_nac} where ID_EMPLEADO={id_mod_emp}; """
-                cursor.execute(sql_mod)
-                cursor.execute(f"""select FECHA_NAC from empleados where ID_EMPLEADOS={id_mod_emp};""")
-                fechanac_actual=cursor.fetchall
-                print(fechanac_actual)
+                vew_fecha_nac=consulta_3(campos[1],nueva_fecha_nac,id_mod_emp)
+                print(vew_fecha_nac)
                 continue
 
             elif op_mod=='3':
@@ -360,22 +362,16 @@ while True:
                 while not re.fullmatch(valid_date,fecha_contrato):
                     print("la fecha ingresada no sigue el formato")
                     fecha_contrato=input('ingese la nueva fecha')
-                sql_mod=f'update empleados set FECHA_CONTRATO={fecha_contrato} where ID_EMPLEADO={id_mod_emp};'    
-                cursor.execute(sql_mod)
-                cursor.execute(f'select FECHA_CONTRATO from empleados where ID_EMPLEADO={id_mod_emp};')
-                fechcontra_actual=cursor.fetchall
-                print(fechanac_actual)
+                vew_fecha_contrato=consulta_3(campos[2],fecha_contrato,id_mod_emp)
+                print(vew_fecha_contrato)
                 continue
 
             elif op_mod=='4':
                     while True:
                         try:    
                             nuevo_salario=int(input('ingrese el nuevo salario'))
-                            cursor.execute(f'update empleados set SALARIO={nuevo_salario} where ID_EMPLEADO={id_mod_emp};')
-                            cursor.execute(f'select SALARIO from empleados where ID_EMPLEADO={id_mod_emp};')
-                            sal_actual=cursor.fetchall
-
-                            print(sal_actual)     
+                            vew_salario=consulta_3(campos[3],nuevo_salario,id_mod_emp)
+                            print('$',vew_salario)
                         except ValueError:
                                 print('salario no valido')                       
                                 continue
@@ -387,9 +383,9 @@ while True:
                 while not re.fullmatch(valid_mail,nuevo_correo):
                     print('el correo no es valido')
                     nuevo_correo=input('ingrese el nuevo correo')
-                cursor.execute(f'update empleados set CORREO={nuevo_correo} where ID_EMPLEADO={id_mod_emp};')    
-                cursor.execute(f'select CORREO from empleados where ID_EMPLEADO={id_mod_emp};')
-
+                vew_correo=consulta_3(campos[4],nuevo_correo,id_mod_emp)
+                print(vew_correo)
+                continue
 
 
 
@@ -399,29 +395,38 @@ while True:
                 while nuevo_telefono not in chr_fono:
                    print('telefono no valido')
                    nuevo_telefono=input('ingrese nuevo telefono')
-                cursor.execute(f'update empleados set TELEFONO={nuevo_telefono} where ID_EMPLEADO={id_mod_emp};')
-                cursor.execute(f'select TELEFONO from empleados where ID_EMPLEADO={id_mod_emp};')
-                fono_actual=cursor.fetchall
-                print(fono_actual)  
+                vew_fono=consulta_3(campos[5],nuevo_telefono,id_mod_emp)  
+                print(vew_fono)
                 continue  
             
             elif op_mod=='7':
                 
                 nueva_direccion=input('ingrese nueva direccion')
-                cursor.execute(f'update empleados set DIRECCION={nueva_direccion} where ID_EMPLEADO={id_mod_emp};')
-                cursor.execute(f'select DIRECCION from empleados where ID_EMPLEADO={id_mod_emp};')
-                direccion_actual=cursor.fetchall
-                print(direccion_actual)            
+                vew_direccion=consulta_3(campos[6],nueva_direccion,id_mod_emp)
+                print(vew_direccion)            
 
 
             elif op_mod=='8':
-                nuevo_rut=input('ingrese el nuevo RUt')
-
-
+                nuevo_rut=input('ingrese el nuevo RUT')
+                while rut_chile.is_valid_rut(nuevo_rut) is False:
+                    print('RUT no valido')
+                    nuevo_rut=input('ingrese el nuevo RUT')
+                vew_rut=consulta_3(campos[7],nuevo_rut,id_mod_emp)
 
 
             elif op_mod=='9':
+                simbolos=['#','@','-']
+                match=0
+                print('la contraseña debe tener al menos 8 caracteres y un minimo de 1 simbolo (#,@,-)')
                 nueva_contraseña=input('ingrese la nueva contraceña')
+                for chr in nueva_contraseña:
+                    if chr in simbolos:
+                        math=+1
+                while len(nueva_contraseña)<8 and match<1:
+                    print('contraseña no valida')
+                    print('la contraseña debe tener al menos 8 caracteres y un minimo de 1 simbolo (#,@,-)')
+                    nueva_contraseña=input('ingrese la nueva contraceña')
+                vew_contraseña=consulta_3(campos[8],nueva_contraseña,id_mod_emp)
 
 
 
@@ -432,10 +437,55 @@ while True:
 
     
     elif  op_menuprincipal=='4': # eliminar
-        menu_datos()   
+        menu_datos()
+        op_delt=input('elija el tipo de dato que quiere eliminar')
+        while op_delt not in opciones_datos:
+            print('no existe esta opcion')
+            op_delt=input('elija el tipo de dato que quiere eliminar')
+        if op_mod_data=='2':
+            continue
+        menu_delt_dato()
+        ops_del=["1","2","3"]
+        numero_del=input("elija una de las opciones")
+        while numero_del not in ops_del:
+            print('esta opcion no existe') 
+            numero_del=input("elija una de las opciones")
+
+        id_empleado=[]
+        if numero_del=="1":
+            for fila in consulta_1:
+                print (fila)
+            id_delt=input('ingrese el ID del empleado que quiere eliminar')
+            while id_delt not in consulta_4:
+                print ('ID noo existe')
+                id_delt=input('ingrese el ID del empleado que quiere eliminar')
+            id_empleado.append(id_delt)
+            consulta_5(id_empleado)
+
+        elif numero_del=="2":
+            ops_num_parcial=["1","2"]
+            while True:
+                for fila in consulta_1:
+                    print (fila)
+                id_delt=input('ingrese el ID del empleado que quiere eliminar')
+                while id_delt not in consulta_4:
+                    print ('ID noo existe') 
+                    id_delt=input('ingrese el ID del empleado que quiere eliminar')
+                
+                num_parcial=input("si quiere eliminar otro empleado ingrese 1 si quiere terminar ingese 2")
+                while num_parcial not in ops_num_parcial:
+                    print('esta opcion no existe')
+                    num_parcial=input("si quiere eliminar otro empleado ingrese 1 si quiere terminar ingese 2")
+                if num_parcial=='1':
+                    id_empleado.append(id_delt)
+                else:
+                    consulta_5(id_empleado)
+                    break
 
 
 
+        else:     
+            continue
 
     else :
         break    
