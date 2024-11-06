@@ -199,12 +199,12 @@ def ingreso_empleados():
     
 
     id_emp=+1
-    empleado= Empleados(id_emp,nombre,fecha_nac,fecha_contrato,
+    empleado=Empleados(id_emp,nombre,fecha_nac,fecha_contrato,
               salario,correo,phono,direccion,rut,contraseña)
     
     consulta_2(nombre,fecha_nac,fecha_contrato,
               salario,correo,phono,direccion,rut,contraseña)
-    
+    return empleado
     print("================================") 
 
 

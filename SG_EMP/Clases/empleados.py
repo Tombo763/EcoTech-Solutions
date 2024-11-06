@@ -2,8 +2,7 @@
 from roles import Roles
 from tipo_empleado_emp import Tipo_empleado_emp
 from getpass import getpass
-from DAL.db import connector
-
+#from DAL.db import connector
 import re
 valid_mail = re.compile(r"([\w\d.-_]+)@([\w]+).([\w]+)")
 
@@ -41,7 +40,7 @@ class Empleados(Roles,Tipo_empleado_emp):
         pass
 
 
-    def encriptacion(self,contraseña):
-        connector()
-        self.password=getpass(contraseña) 
+    def encriptacion(self):
+        contraseña=getpass(self.password) 
+        return contraseña
         pass

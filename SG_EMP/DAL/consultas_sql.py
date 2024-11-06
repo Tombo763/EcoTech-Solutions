@@ -1,4 +1,4 @@
-from db import connector
+from DAL.db import connector
 cursor=connector().cursor()
 
 def consulta_1():
