@@ -2,19 +2,19 @@
 
 import re
 from getpass import getpass
-from DAL .db import connector
-from DAL.consultas_sql import consulta_1, consulta_2,consulta_3,consulta_4,consulta_5
+
+from DAL.consultas_sql import consulta_1,consulta_3,consulta_4,consulta_5
 from rut_chile import rut_chile
 from Clases.empleados import Empleados
 
 valid_mail = re.compile(r"([\w\d.-_]+)@([\w]+).([\w]+)")
 valid_date=re.compile(r"DD/MM/AAAA")
 usuarios=[]
-id_emp=len(consulta_4)
+id_emp=consulta_4()
 list_usuarios=[]
 list_password=[]
 consulta=[1,2,3,4,5]
-cursor=connector().cursor()
+
 ch_rut=['1','2','3','4','5','6','7','8','9','0','k']
 
 def menuinicio():
@@ -27,7 +27,7 @@ def menuinicio():
     print("================================")
 
 
-def crear_secion():
+def crear_sesion():
     usuario=[]
     print("================================")
     print("           SING IN              ")
@@ -57,7 +57,7 @@ def crear_secion():
         print('la contraseña no es valida')
     usuario.append(contraseña)
     
-    connector(consulta[1])
+    
     id_usuario=+1
     usuarios.update({id_usuario:usuario})
 
@@ -198,13 +198,18 @@ def ingreso_empleados():
         contraseña=getpass('Contraseña:    ')
     
 
-    id_emp=+1
-    empleado=Empleados(id_emp,nombre,fecha_nac,fecha_contrato,
+    id_emp2=int(id_emp[-1])
+    id_emp2=+1
+    empleado=Empleados(id_emp2,nombre,fecha_nac,fecha_contrato,
               salario,correo,phono,direccion,rut,contraseña)
     
-    consulta_2(nombre,fecha_nac,fecha_contrato,
-              salario,correo,phono,direccion,rut,contraseña)
-    return empleado
+    #consulta_2(nombre,fecha_nac,fecha_contrato,
+     #         salario,correo,phono,direccion,rut,contraseña)
+    if Empleados.validar_datos(empleado) is False:
+        print ("listo")
+    
+
+
     print("================================") 
 
 

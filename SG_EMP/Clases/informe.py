@@ -1,4 +1,4 @@
-class informe:
+class Informe:
     
     def __init__(self,id_informe='' ):
         self.id_informe=id_informe
