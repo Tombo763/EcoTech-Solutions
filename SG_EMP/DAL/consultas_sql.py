@@ -1,4 +1,4 @@
-from db import connector
+from .db import connector
 
 def consulta_1():
     conexion=connector()
